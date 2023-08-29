@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import crypto from "crypto";
+
+//UTILS
+
+function generateRandomHash() {
+  return crypto.randomBytes(16).toString("hex");
+}
 
 dotenv.config();
 
@@ -30,6 +37,7 @@ const productSchema = new mongoose.Schema({
 
 productSchema.set("toJSON", {
   transform: (document, returnedObject) => {
+    returnedObject.id = generateRandomHash();
     delete returnedObject._id;
     delete returnedObject.__v;
   },
