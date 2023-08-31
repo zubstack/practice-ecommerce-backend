@@ -32,7 +32,7 @@ app.get("/api/products/:id", (request, response, next) => {
     });
 });
 
-app.post("/api/products", (request, response) => {
+app.post("/api/products", (request, response, next) => {
   const body = request.body;
 
   console.log(body);
@@ -49,10 +49,15 @@ app.post("/api/products", (request, response) => {
     weight: body.weight,
   });
 
-  product.save().then((savedProduct) => {
-    response.json("Data saved on db");
-    console.log("POST", savedProduct);
-  });
+  product
+    .save()
+    .then((savedProduct) => {
+      response.json("Data saved on db");
+      console.log("POST", savedProduct);
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 app.delete("/api/products/:id", (request, response, next) => {
@@ -75,7 +80,12 @@ app.put("/api/products/:id", (request, response, next) => {
   const { id } = request.params;
   const body = request.body;
   // Use {new:true} to receive the updated version of this document
-  Product.findByIdAndUpdate(id, body, { new: true })
+  // Use {runValidators: true} because they doesn't run by default.
+  Product.findByIdAndUpdate(id, body, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
     .then((updatedProduct) => {
       if (!updatedProduct) {
         response.status(404).end();
@@ -98,6 +108,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);

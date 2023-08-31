@@ -26,10 +26,22 @@ mongoose
 
 const productSchema = new mongoose.Schema({
   price: Number,
-  brand: String,
-  categories: String,
+  brand: {
+    type: String,
+    minLength: 2,
+    required: true,
+  },
+  categories: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
   images: Array,
-  name: String,
+  name: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
   weight: String,
 });
 
