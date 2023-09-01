@@ -1,12 +1,9 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import crypto from "crypto";
 
-//UTILS
-
-function generateRandomHash() {
-  return crypto.randomBytes(16).toString("hex");
-}
+// UTILS
 
 dotenv.config();
 
@@ -17,7 +14,7 @@ console.log("Connecting to", url);
 mongoose.set("strictQuery", false);
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
@@ -45,7 +42,7 @@ const productSchema = new mongoose.Schema({
   weight: String,
 });
 
-//Formating the received data:
+// Formating the received data:
 
 productSchema.set("toJSON", {
   transform: (document, returnedObject) => {

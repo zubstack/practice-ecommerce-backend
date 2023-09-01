@@ -1,6 +1,7 @@
+/* eslint-disable import/extensions */
 import express from "express";
-import Product from "./product.js";
 import cors from "cors";
+import Product from "./product.js";
 
 const app = express();
 app.use(express.json());
@@ -33,7 +34,7 @@ app.get("/api/products/:id", (request, response, next) => {
 });
 
 app.post("/api/products", (request, response, next) => {
-  const body = request.body;
+  const { body } = request;
 
   console.log(body);
 
@@ -58,6 +59,7 @@ app.post("/api/products", (request, response, next) => {
     .catch((error) => {
       next(error);
     });
+  return undefined;
 });
 
 app.delete("/api/products/:id", (request, response, next) => {
@@ -78,7 +80,7 @@ app.delete("/api/products/:id", (request, response, next) => {
 
 app.put("/api/products/:id", (request, response, next) => {
   const { id } = request.params;
-  const body = request.body;
+  const { body } = request;
   // Use {new:true} to receive the updated version of this document
   // Use {runValidators: true} because they doesn't run by default.
   Product.findByIdAndUpdate(id, body, {
@@ -108,11 +110,13 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
-  } else if (error.name === "ValidationError") {
+  }
+  if (error.name === "ValidationError") {
     return response.status(400).json({ error: error.message });
   }
 
   next(error);
+  return undefined;
 };
 
 // This has to be the last loaded middleware.
