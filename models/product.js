@@ -1,25 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
+
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-// UTILS
-
-dotenv.config();
-
-const url = process.env.DATABASE_URL;
-
-console.log("Connecting to", url);
-
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(url)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.log("Error connecting to MongoDB:", error.message);
-  });
 
 const productSchema = new mongoose.Schema({
   price: Number,
