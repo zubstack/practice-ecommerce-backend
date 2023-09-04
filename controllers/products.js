@@ -1,5 +1,6 @@
 import express from "express";
 import Product from "../models/product.js";
+import logger from "../utils/logger.js";
 
 const productsRouter = express.Router();
 
@@ -29,7 +30,7 @@ productsRouter.get("/:id", (request, response, next) => {
 productsRouter.post("", (request, response, next) => {
   const { body } = request;
 
-  console.log(body);
+  logger.info(body);
 
   if (body === undefined) {
     return response.status(400).json({ error: "content missing" });
@@ -47,7 +48,7 @@ productsRouter.post("", (request, response, next) => {
     .save()
     .then((savedProduct) => {
       response.json("Data saved on db");
-      console.log("POST", savedProduct);
+      logger.info("POST", savedProduct);
     })
     .catch((error) => {
       next(error);
