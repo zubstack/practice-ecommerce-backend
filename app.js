@@ -11,10 +11,10 @@ const app = express();
 
 mongoose.set("strictQuery", false);
 
-logger.info("Connecting to", config.DATABASE_URL);
+logger.info("Connecting to", config.MONGODB_URI);
 
 mongoose
-  .connect(config.DATABASE_URL)
+  .connect(config.MONGODB_URI)
   .then(() => {
     logger.info("Connected to MongoDB");
   })
