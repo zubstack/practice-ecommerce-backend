@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+
 import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema({
@@ -56,6 +59,13 @@ const itemSchema = new mongoose.Schema({
     minLength: 5,
     maxLength: 400,
     required: true,
+  },
+});
+
+itemSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    delete returnedObject._id;
+    delete returnedObject.__v;
   },
 });
 
