@@ -1,32 +1,15 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
-
 import mongoose from "mongoose";
+import itemSchema from "./item.js";
+import specificationsSchema from "./specifications.js";
 
 const productSchema = new mongoose.Schema({
-  item: Object,
-  specifications: Object,
+  item: itemSchema,
+  specifications: specificationsSchema,
 });
-// price: Number,
-//   brand: {
-//     type: String,
-//     minLength: 2,
-//     required: true,
-//   },
-//   categories: {
-//     type: String,
-//     minLength: 5,
-//     required: true,
-//   },
-//   images: Array,
-//   name: {
-//     type: String,
-//     minLength: 5,
-//     required: true,
-//   },
-//   weight: String,
-// Formating the received data:
 
+// Formating the received data:
 productSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
