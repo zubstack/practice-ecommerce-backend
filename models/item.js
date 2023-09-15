@@ -4,25 +4,25 @@ const itemSchema = new mongoose.Schema({
   name: {
     type: String,
     minLength: 5,
-    maxLength: 30,
+    maxLength: 100,
     required: true,
   },
   brand: {
     type: String,
     minLength: 2,
-    maxLength: 30,
+    maxLength: 100,
     required: true,
   },
   model: {
     type: String,
     minLength: 5,
-    maxLength: 30,
+    maxLength: 100,
     required: true,
   },
   description: {
     type: String,
     minLength: 5,
-    maxLength: 200,
+    maxLength: 500,
     required: true,
   },
   price: {
@@ -34,7 +34,7 @@ const itemSchema = new mongoose.Schema({
   availability: {
     type: String,
     minLength: 5,
-    maxLength: 20,
+    maxLength: 100,
     required: true,
   },
   rating: {
@@ -46,7 +46,7 @@ const itemSchema = new mongoose.Schema({
   image_url: {
     type: String,
     minLength: 5,
-    maxLength: 300,
+    maxLength: 400,
     required: true,
   },
 });
