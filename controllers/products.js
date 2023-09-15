@@ -31,17 +31,12 @@ productsRouter.post("", (request, response, next) => {
   const { body } = request;
 
   logger.info(body);
-
   if (body === undefined) {
     return response.status(400).json({ error: "content missing" });
   }
   const product = new Product({
-    price: body.price,
-    brand: body.brand,
-    categories: body.categories,
-    images: body.images,
-    name: body.name,
-    weight: body.weight,
+    item: body.item,
+    specifications: body.specifications,
   });
 
   product
