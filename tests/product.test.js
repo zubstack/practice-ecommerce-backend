@@ -94,6 +94,18 @@ test("a valid product can be added", async () => {
   expect(contents).toContain("Marcio Tech Keyboard");
 });
 
+test("note without content is not added", async () => {
+  const newNote = {
+    important: true,
+  };
+
+  await api.post("/api/notes").send(newNote).expect(400);
+
+  const response = await api.get("/api/notes");
+
+  expect(response.body).toHaveLength(initialNotes.length);
+});
+
 afterAll(async () => {
   await connection.close();
 });
