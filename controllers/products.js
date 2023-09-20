@@ -39,7 +39,7 @@ productsRouter.post("", (request, response, next) => {
   product
     .save()
     .then((savedProduct) => {
-      response.json("Data saved on db");
+      response.status(201).json("Data saved on db");
       logger.info("POST", savedProduct);
     })
     .catch((error) => {
