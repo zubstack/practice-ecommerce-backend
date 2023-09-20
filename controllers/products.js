@@ -4,27 +4,24 @@ import logger from "../utils/logger.js";
 
 const productsRouter = express.Router();
 
-productsRouter.get("/", (request, response) => {
-  Product.find({}).then((products) => {
-    response.json(products);
-  });
+productsRouter.get("/", async (request, response) => {
+  const products = await Product.find({});
+  response.json(products);
 });
 
 // Error handling cases: Not found & Rejection from db
-productsRouter.get("/:id", (request, response, next) => {
+productsRouter.get("/:id", async (request, response, next) => {
   const { id } = request.params;
-  Product.findOne({ _id: id })
-    .then((product) => {
-      if (product) {
-        response.json(product);
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch((error) => {
-      // // Good pratice: log the faulty object that caused this error
-      next(error);
-    });
+  try {
+    const product = await Product.findOne({ _id: id });
+    if (product) {
+      response.json(product);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 productsRouter.post("", (request, response, next) => {
