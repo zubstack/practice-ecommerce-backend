@@ -9,6 +9,15 @@ const productSchema = new mongoose.Schema({
   specifications: specificationsSchema,
 });
 
+productSchema.pre("save", function (next) {
+  if (!this.item || !this.specifications) {
+    const error = new Error("Document incomplete");
+    return next(error);
+  }
+  next();
+  return undefined;
+});
+
 // Formating the received data:
 productSchema.set("toJSON", {
   transform: (document, returnedObject) => {

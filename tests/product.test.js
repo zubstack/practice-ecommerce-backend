@@ -94,16 +94,16 @@ test("a valid product can be added", async () => {
   expect(contents).toContain("Marcio Tech Keyboard");
 });
 
-test("note without content is not added", async () => {
-  const newNote = {
-    important: true,
+test("product without content is not added", async () => {
+  const newproduct = {
+    bla: 6262,
   };
 
-  await api.post("/api/notes").send(newNote).expect(400);
+  await api.post("/api/products").send(newproduct).expect(400);
 
-  const response = await api.get("/api/notes");
+  const response = await api.get("/api/products");
 
-  expect(response.body).toHaveLength(initialNotes.length);
+  expect(response.body).toHaveLength(initialProducts.length);
 });
 
 afterAll(async () => {

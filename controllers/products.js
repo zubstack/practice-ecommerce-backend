@@ -24,27 +24,25 @@ productsRouter.get("/:id", async (request, response, next) => {
   }
 });
 
-productsRouter.post("", (request, response, next) => {
-  const { body } = request;
+productsRouter.post("/", async (request, response, next) => {
+  try {
+    const { body } = request;
 
-  logger.info(body);
-  if (body === undefined) {
-    return response.status(400).json({ error: "content missing" });
-  }
-  const product = new Product({
-    item: body.item,
-    specifications: body.specifications,
-  });
-
-  product
-    .save()
-    .then((savedProduct) => {
-      response.status(201).json("Data saved on db");
-      logger.info("POST", savedProduct);
-    })
-    .catch((error) => {
-      next(error);
+    // logger.info(body);
+    if (body === undefined) {
+      return response.status(400).json({ error: "content missing" });
+    }
+    const product = new Product({
+      item: body.item,
+      specifications: body.specifications,
     });
+    const savedProduct = await product.save();
+    response.status(201).json("Data saved on db");
+    logger.info("POST", savedProduct);
+  } catch (error) {
+    next(error);
+  }
+
   return undefined;
 });
 

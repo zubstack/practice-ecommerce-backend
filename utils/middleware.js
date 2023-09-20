@@ -15,7 +15,9 @@ const unknownEndpoint = (request, response) => {
 // This function invokes the default error handler of express
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message);
-
+  if (error.message === "Document incomplete") {
+    return response.status(400).send({ error: "document incomplete" });
+  }
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
   }
