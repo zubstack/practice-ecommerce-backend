@@ -3,7 +3,6 @@ import supertest from "supertest";
 import app from "../app.js";
 import Product from "../models/product.js";
 import { initialProducts, productsInDb } from "./test_helper.js";
-
 // With the following we assure to test the DB with the exact content every time:
 beforeEach(async () => {
   await Product.deleteMany({});
@@ -61,8 +60,6 @@ test("a valid product can be added", async () => {
     .expect(201)
     .expect("Content-Type", /application\/json/);
 
-  // const response = await api.get("/api/products");
-
   const productsAtEnd = await productsInDb();
   const contents = productsAtEnd.map((product) => product.item.name);
 
@@ -81,6 +78,22 @@ test("product without content is not added", async () => {
 
   expect(productsAtEnd).toHaveLength(initialProducts.length);
 });
+
+// Check if an specific product is received from API
+test("specific product is received from API", async () => {
+  const productsToStart = await productsInDb();
+
+  const searchedProduct = productsToStart[0];
+  const resultProduct = await api
+    .get(`/api/products/${searchedProduct.id}`)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+
+  expect(resultProduct.body).toStrictEqual(searchedProduct);
+});
+
+// Check if an specific product is deleted from API
+test("specific product is deleted from API", async () => {});
 
 afterAll(async () => {
   await connection.close();
