@@ -46,20 +46,17 @@ productsRouter.post("/", async (request, response, next) => {
   return undefined;
 });
 
-productsRouter.delete("/:id", (request, response, next) => {
+productsRouter.delete("/:id", async (request, response, next) => {
   const { id } = request.params;
-
-  Product.findByIdAndRemove(id)
-    .then((result) => {
-      if (!result) {
-        response.status(404).end();
-      }
-      response.status(204).end();
-    })
-    .catch((error) => {
-      next(error);
-    });
-  // .catch((error) => next(error));
+  try {
+    const result = await Product.findByIdAndRemove(id);
+    if (!result) {
+      response.status(404).end();
+    }
+    response.status(204).end();
+  } catch (error) {
+    next(error);
+  }
 });
 
 productsRouter.put("/:id", (request, response, next) => {
