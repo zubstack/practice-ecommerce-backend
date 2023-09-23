@@ -58,8 +58,8 @@ productsRouter.delete("/:id", (request, response, next) => {
     })
     .catch((error) => {
       next(error);
-    })
-    .catch((error) => next(error));
+    });
+  // .catch((error) => next(error));
 });
 
 productsRouter.put("/:id", (request, response, next) => {

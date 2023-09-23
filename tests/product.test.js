@@ -93,7 +93,18 @@ test("specific product is received from API", async () => {
 });
 
 // Check if an specific product is deleted from API
-test("specific product is deleted from API", async () => {});
+test("specific product is deleted from API", async () => {
+  const productsToStart = await productsInDb();
+  const { id } = productsToStart[0];
+
+  await api.delete(`/api/products/${id}`).expect(204);
+  await api.get(`/api/products/${id}`).expect(404);
+
+  const productsAtEnd = await productsInDb();
+  const ids = productsAtEnd.map((product) => product.id);
+
+  expect(ids).not.toContain(id);
+});
 
 afterAll(async () => {
   await connection.close();
