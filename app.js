@@ -1,4 +1,5 @@
 import express from "express";
+import "express-async-errors";
 import cors from "cors";
 import mongoose from "mongoose";
 import config from "./utils/config.js";
@@ -35,3 +36,6 @@ app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 export default app;
+
+//  NOTE:"express-async-errors" to simplify the try/catch syntax because
+// it handles the exeptions under the hood.

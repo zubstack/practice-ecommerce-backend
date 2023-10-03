@@ -10,53 +10,53 @@ productsRouter.get("/", async (request, response) => {
 });
 
 // Error handling cases: Not found & Rejection from db
-productsRouter.get("/:id", async (request, response, next) => {
+productsRouter.get("/:id", async (request, response) => {
   const { id } = request.params;
-  try {
-    const product = await Product.findOne({ _id: id });
-    if (product) {
-      response.json(product);
-    } else {
-      response.status(404).end();
-    }
-  } catch (error) {
-    next(error);
+  // try {
+  const product = await Product.findOne({ _id: id });
+  if (product) {
+    response.json(product);
+  } else {
+    response.status(404).end();
   }
+  // } catch (error) {
+  //   next(error);
+  // }
 });
 
-productsRouter.post("/", async (request, response, next) => {
-  try {
-    const { body } = request;
+productsRouter.post("/", async (request, response) => {
+  // try {
+  const { body } = request;
 
-    // logger.info(body);
-    if (body === undefined) {
-      return response.status(400).json({ error: "content missing" });
-    }
-    const product = new Product({
-      item: body.item,
-      specifications: body.specifications,
-    });
-    const savedProduct = await product.save();
-    response.status(201).json("Data saved on db");
-    logger.info("POST", savedProduct);
-  } catch (error) {
-    next(error);
+  // logger.info(body);
+  if (body === undefined) {
+    return response.status(400).json({ error: "content missing" });
   }
+  const product = new Product({
+    item: body.item,
+    specifications: body.specifications,
+  });
+  const savedProduct = await product.save();
+  response.status(201).json("Data saved on db");
+  logger.info("POST", savedProduct);
+  // } catch (error) {
+  //   next(error);
+  // }
 
   return undefined;
 });
 
-productsRouter.delete("/:id", async (request, response, next) => {
+productsRouter.delete("/:id", async (request, response) => {
   const { id } = request.params;
-  try {
-    const result = await Product.findByIdAndRemove(id);
-    if (!result) {
-      response.status(404).end();
-    }
-    response.status(204).end();
-  } catch (error) {
-    next(error);
+  // try {
+  const result = await Product.findByIdAndRemove(id);
+  if (!result) {
+    response.status(404).end();
   }
+  response.status(204).end();
+  // } catch (error) {
+  //   next(error);
+  // }
 });
 
 productsRouter.put("/:id", (request, response, next) => {
