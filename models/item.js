@@ -32,7 +32,7 @@ const itemSchema = new mongoose.Schema({
     type: Number,
     validate: {
       validator: Number.isInteger,
-      message: "{VALUE} no es un número entero válido.",
+      message: "{VALUE} is not a valid integer.",
     },
     min: 1,
     max: 1000,
@@ -47,8 +47,8 @@ const itemSchema = new mongoose.Schema({
   rating: {
     type: Number,
     validate: {
-      validator: Number.isInteger, // Verifica que sea un número entero
-      message: "{VALUE} no es un número entero válido.",
+      validator: Number.isInteger,
+      message: "{VALUE} is not a valid integer.",
     },
     min: 1,
     max: 5,
