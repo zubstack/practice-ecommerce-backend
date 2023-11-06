@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import Product from "../models/product.js";
+import User from "../models/user.js";
 
 const initialProducts = [
   {
@@ -69,4 +70,9 @@ const productsInDb = async () => {
   return products.map((product) => product.toJSON());
 };
 
-export { initialProducts, productsInDb, nonExistingId };
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((user) => user.toJSON());
+};
+
+export { initialProducts, productsInDb, nonExistingId, usersInDb };

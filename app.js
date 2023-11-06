@@ -7,6 +7,7 @@ import productsRouter from "./controllers/products.js";
 import logger from "./utils/logger.js";
 import middleware from "./utils/middleware.js";
 import ordersRouter from "./controllers/orders.js";
+import usersRouter from "./controllers/user.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger);
 
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/users", usersRouter);
 
 // handler of requests with unknown endpoint
 app.use(middleware.unknownEndpoint);

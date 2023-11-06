@@ -7,6 +7,10 @@ import specificationsSchema from "./specifications.js";
 const productSchema = new mongoose.Schema({
   item: itemSchema,
   specifications: specificationsSchema,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 productSchema.pre("save", function (next) {

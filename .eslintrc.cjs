@@ -26,5 +26,7 @@ module.exports = {
     quotes: ["error", "double"],
     semi: ["error", "always"],
     "import/extensions": ["error", "ignorePackages", { "": "never" }],
+    "no-underscore-dangle": off,
+    "no-param-reassign": off,
   },
 };
