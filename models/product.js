@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   details: [String],
-  categorory_id: {
+  category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: [true, 'Each product must to specify its category'],
@@ -54,7 +54,7 @@ const Product = mongoose.model('Product', productSchema);
 //     const categories = await Category.find({});
 //     const firstCategory = categories[0];
 //     const productObjects = productsData.map((product) => {
-//       product.categorory_id = firstCategory._id.toString();
+//       product.category_id = firstCategory._id;
 //       return new Product(product);
 //     });
 //     const productsPromiseArray = productObjects.map((product) =>
