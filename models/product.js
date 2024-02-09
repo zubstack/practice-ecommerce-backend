@@ -1,29 +1,45 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
-import mongoose from "mongoose";
-import itemSchema from "./item.js";
-import specificationsSchema from "./specifications.js";
+import mongoose from 'mongoose';
+import variantsSchema from './variant.js';
 
 const productSchema = new mongoose.Schema({
-  item: itemSchema,
-  specifications: specificationsSchema,
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  name: {
+    type: String,
+    minLength: 5,
+    maxLength: 100,
+    required: true,
   },
+  brand: {
+    type: String,
+    minLength: 2,
+    maxLength: 100,
+    required: true,
+  },
+  variants: [variantsSchema],
+  available: {
+    type: Boolean,
+    required: true,
+  },
+  description: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
+  details: [String],
 });
 
-productSchema.pre("save", function (next) {
-  if (!this.item || !this.specifications) {
-    const error = new Error("Document incomplete");
-    return next(error);
-  }
-  next();
-  return undefined;
-});
+// productSchema.pre('save', function (next) {
+//   if (!this.item || !this.specifications) {
+//     const error = new Error('Document incomplete');
+//     return next(error);
+//   }
+//   next();
+//   return undefined;
+// });
 
 // Formating the received data:
-productSchema.set("toJSON", {
+productSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -31,6 +47,6 @@ productSchema.set("toJSON", {
   },
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 export default Product;
