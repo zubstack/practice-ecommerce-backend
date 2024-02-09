@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 const variantsSchema = new mongoose.Schema({
   variant_name: {
     type: String,
-    minLength: 5,
     maxLength: 100,
     required: true,
   },
