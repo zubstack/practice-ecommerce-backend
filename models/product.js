@@ -2,6 +2,8 @@
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
 import variantsSchema from './variant.js';
+import productsData from '../data/products.js';
+import logger from '../utils/logger.js';
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -48,5 +50,17 @@ productSchema.set('toJSON', {
 });
 
 const Product = mongoose.model('Product', productSchema);
+
+(async () => {
+  try {
+    await Product.deleteMany({});
+    const productObjects = productsData.map((product) => new Product(product));
+    const promiseArray = productObjects.map((product) => product.save());
+    await Promise.all(promiseArray);
+    logger.info('Succesfully products upload');
+  } catch (error) {
+    logger.error('Error: products uploading failed \n', error.message);
+  }
+})();
 
 export default Product;
