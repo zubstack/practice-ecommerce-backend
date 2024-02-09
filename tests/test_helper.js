@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import Category from '../models/category.js';
 import Product from '../models/product.js';
 import User from '../models/user.js';
 
@@ -114,19 +115,30 @@ const initialProducts = [
   },
 ];
 
-// For creating a database object ID that does not belong to any note object in the database.
-const nonExistingId = async () => {
-  const product = new Product({ content: 'willremovethissoon' });
+const getNonExistingId = async () => {
+  const { model } = await getProductExamples();
+  const product = new Product(model);
   await product.save();
   await product.deleteOne();
 
   return product._id.toString();
 };
 
-// Checking the notes stored in the database
 const productsInDb = async () => {
   const products = await Product.find({});
   return products.map((product) => product.toJSON());
+};
+
+const initializeCategories = async () => {
+  await Category.deleteMany({});
+  const categoryObject = { category_name: 'shoes', products: [] };
+  const categoryInstance = new Category(categoryObject);
+  await categoryInstance.save();
+};
+
+const getFirstCategory = async () => {
+  const [firstCategory] = await Category.find({});
+  return firstCategory;
 };
 
 const usersInDb = async () => {
@@ -134,4 +146,47 @@ const usersInDb = async () => {
   return users.map((user) => user.toJSON());
 };
 
-export { initialProducts, productsInDb, nonExistingId, usersInDb };
+const getProductExamples = async () => {
+  const firstCategory = await getFirstCategory();
+
+  return {
+    model: {
+      name: 'Harden Vol 7 - Grey',
+      brand: 'adidas',
+      variants: [
+        {
+          variant_name: 'default',
+          size: ['39', '42', '43', '43,5', '44', '47,5'],
+          price: 135,
+          images: [
+            'https://static.basketballstore.net/image/cache/catalog/basketball%20store/scarpe/basket/adidas/IE9257-adidas-harden-vol-7-grey-scarpe-basket-0-638x638.jpg',
+          ],
+        },
+      ],
+      available: true,
+      description:
+        'The adidas Harden Vol. 7 basketball shoe is the seventh signature installment from the Philadelphia Seventy Sixers star.From his lethal stepback to his love of luxury fashion, there is no doubt that James Harden has style both on and off the court. With his new signature adidas Basketball shoes, it all comes into play. The upper takes inspiration from the bold look of his flashy down jackets, and the details support his explosive movements on the court. A hybrid BOOST and Lightstrike midsole provides lightweight energy while the outsole pattern supports every jump, cut or change of direction giving you maximum traction.',
+      details: [
+        'BOOST midsole',
+        'Lightstrike cushioning',
+        'Lace-up closure',
+        'Textile upper',
+        'Regular fit',
+        'Rubber outsole',
+        'Weight: 474gr (9US)',
+      ],
+      category_id: firstCategory._id,
+    },
+    bad: {},
+  };
+};
+
+export {
+  initialProducts,
+  productsInDb,
+  getNonExistingId,
+  usersInDb,
+  initializeCategories,
+  getFirstCategory,
+  getProductExamples,
+};
