@@ -4,7 +4,11 @@ import Category from '../models/category.js';
 const categoriesRouter = express.Router();
 
 categoriesRouter.get('/', async (request, response) => {
-  const categories = await Category.find({});
+  const categories = await Category.find({}).populate('products', {
+    name: 1,
+    brand: 1,
+    id: 1,
+  });
   const categoriesList = categories.map((category) => category.toJSON());
   response.json(categoriesList);
 });
