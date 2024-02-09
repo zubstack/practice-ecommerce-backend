@@ -1,27 +1,31 @@
-import logger from "./logger.js";
+import logger from './logger.js';
 
 const requestLogger = (request, response, next) => {
-  logger.info("Method:", request.method);
-  logger.info("Path:  ", request.path);
-  logger.info("Body:  ", request.body);
-  logger.info("---");
+  logger.info('Method:', request.method);
+  logger.info('Path:  ', request.path);
+  logger.info('Body:  ', request.body);
+  logger.info('---');
   next();
 };
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
+  response.status(404).send({ error: 'unknown endpoint' });
 };
 
 // This function invokes the default error handler of express
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message);
-  if (error.message === "Document incomplete") {
-    return response.status(400).send({ error: "document incomplete" });
+  if (error.isBoom) {
+    const { output } = error;
+    return response.status(output.statusCode).json(output.payload);
   }
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
+  if (error.message === 'Document incomplete') {
+    return response.status(400).send({ error: 'document incomplete' });
   }
-  if (error.name === "ValidationError") {
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' });
+  }
+  if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message });
   }
 
