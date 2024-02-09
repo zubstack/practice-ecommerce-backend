@@ -1,63 +1,37 @@
 import express from 'express';
-import Product from '../models/product.js';
-import logger from '../utils/logger.js';
+import ProductService from '../services/products.service.js';
 
 const productsRouter = express.Router();
+const service = new ProductService();
 
 productsRouter.get('/', async (request, response) => {
-  const products = await Product.find({});
-  response.json(products);
+  const products = await service.find({});
+  return response.json(products);
 });
 
 productsRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
-  const product = await Product.findOne({ _id: id });
-  if (product) {
-    response.json(product);
-  } else {
-    response.status(404).end();
-  }
+  const result = await service.findOne({ _id: id });
+  return response.status(200).json(result);
 });
 
 productsRouter.post('/', async (request, response) => {
   const { body } = request;
-
-  if (body === undefined) {
-    return response.status(400).json({ error: 'content missing' });
-  }
-  const product = new Product(body);
-  const savedProduct = await product.save();
-  response.status(201).json('Data saved on db');
-  logger.info('POST', savedProduct);
-  return undefined;
+  const result = await service.create(body);
+  return response.status(201).json(result);
 });
 
 productsRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
-  const result = await Product.findByIdAndRemove(id);
-  if (!result) {
-    response.status(404).end();
-  }
-  response.status(204).end();
+  const result = await service.deleteOne(id);
+  return response.status(204).json(result);
 });
 
-productsRouter.put('/:id', (request, response, next) => {
+productsRouter.patch('/:id', async (request, response) => {
   const { id } = request.params;
   const { body } = request;
-  // Use {new:true} to receive the updated version of this document
-  // Use {runValidators: true} because they doesn't run by default.
-  Product.findByIdAndUpdate(id, body, {
-    new: true,
-    runValidators: true,
-    context: 'query',
-  })
-    .then((updatedProduct) => {
-      if (!updatedProduct) {
-        response.status(404).end();
-      }
-      response.json(updatedProduct);
-    })
-    .catch((error) => next(error));
+  const result = await service.update(id, body);
+  return response.json(result);
 });
 
 export default productsRouter;
