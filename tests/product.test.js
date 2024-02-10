@@ -102,14 +102,14 @@ describe('Failue: /products', () => {
     await api.patch(`${productsUrl}/${invalidId}`).expect(400);
   });
 
-  // test('with invalid data, async () => {
-  //   const newproduct = {
-  //     bla: 6262,
-  //   };
-  //   await api.post(productsUrl).send(newproduct).expect(400);
-  //   const productsAtEnd = await productsInDb();
-  //   expect(productsAtEnd).toHaveLength(initialProducts.length);
-  // });
+  test('with invalid data', async () => {
+    const newproduct = {
+      bla: 6262,
+    };
+    await api.post(productsUrl).send(newproduct).expect(400);
+    const productsAtEnd = await productsInDb();
+    expect(productsAtEnd).toHaveLength(initialProducts.length);
+  });
 });
 
 afterAll(async () => {

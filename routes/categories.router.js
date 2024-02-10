@@ -1,5 +1,7 @@
 import express from 'express';
 import Category from '../models/category.model.js';
+import { createCategorySchema } from '../schemas/category.schema.js';
+import { validatorHandler } from '../utils/middleware.js';
 
 const categoriesRouter = express.Router();
 
@@ -13,24 +15,28 @@ categoriesRouter.get('/', async (request, response) => {
   response.json(categoriesList);
 });
 
-categoriesRouter.post('/', async (request, response) => {
-  const { body } = request;
-  const newItem = new Category(body);
-  const rta = await newItem.save();
-  response.status(201).json(rta);
-});
+categoriesRouter.post(
+  '/',
+  validatorHandler(createCategorySchema, 'body'),
+  async (request, response) => {
+    const { body } = request;
+    const newItem = new Category(body);
+    const result = await newItem.save();
+    response.status(201).json(result);
+  }
+);
 
 categoriesRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
 
-  const rta = await Category.findOneAndRemove({
+  const result = await Category.findOneAndRemove({
     _id: id,
   });
 
-  if (!rta) {
+  if (!result) {
     response.status(201).json('Category NOT_FOUND').end();
   } else {
-    response.status(404).json(rta).end();
+    response.status(404).json(result).end();
   }
 });
 
