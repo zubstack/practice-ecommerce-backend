@@ -6,6 +6,7 @@ import config from './utils/config.js';
 import logger from './utils/logger.js';
 import middleware from './utils/middleware.js';
 import routerApi from './controllers/index.js';
+import morgan from 'morgan';
 
 const app = express();
 
@@ -24,7 +25,10 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
-app.use(middleware.requestLogger);
+
+if (config.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
 
 routerApi(app);
 
