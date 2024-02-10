@@ -1,7 +1,19 @@
 import logger from './logger.js';
+import boom from '@hapi/boom';
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
+};
+
+const validatorHandler = (schema, property) => {
+  return (request, response, next) => {
+    const data = request[property];
+    const { error } = schema.validate(data);
+    if (error) {
+      next(boom.badRequest(error.message));
+    }
+    next();
+  };
 };
 
 // This function invokes the default error handler of express
@@ -20,9 +32,12 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message });
   }
+  if (error.code === 11000) {
+    return response.status(400).json({ error: error.message });
+  }
 
   next(error);
   return undefined;
 };
 
-export default { unknownEndpoint, errorHandler };
+export { unknownEndpoint, errorHandler, validatorHandler };
