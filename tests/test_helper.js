@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import Category from '../models/category.js';
-import Product from '../models/product.js';
-import User from '../models/user.js';
+import Category from '../models/category.model.js';
+import Product from '../models/product.model.js';
+import User from '../models/user.model.js';
 
 const initialProducts = [
   {

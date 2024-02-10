@@ -1,7 +1,7 @@
 import { connection } from 'mongoose';
 import supertest from 'supertest';
 import app from '../app.js';
-import Product from '../models/product.js';
+import Product from '../models/product.model.js';
 import {
   getFirstCategory,
   getNonExistingId,

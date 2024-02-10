@@ -1,6 +1,6 @@
 import boom from '@hapi/boom';
-import Product from '../models/product.js';
-import Category from '../models/category.js';
+import Product from '../models/product.model.js';
+import Category from '../models/category.model.js';
 
 class ProductService {
   constructor() {}

@@ -1,8 +1,8 @@
 import express from 'express';
-import productsRouter from './products.js';
-import ordersRouter from './orders.js';
-import usersRouter from './user.js';
-import categoriesRouter from './categories.js';
+import productsRouter from './products.router.js';
+import ordersRouter from './orders.router.js';
+import usersRouter from './users.router.js';
+import categoriesRouter from './categories.router.js';
 
 function routerApi(app) {
   const router = express.Router();

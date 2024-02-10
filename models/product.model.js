@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
-import variantsSchema from './variant.js';
+import variantsSchema from './variant.model.js';
 import productsData from '../data/products.js';
 import logger from '../utils/logger.js';
-import Category from './category.js';
+import Category from './category.model.js';
 
 const productSchema = new mongoose.Schema({
   name: {

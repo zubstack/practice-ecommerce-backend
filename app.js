@@ -5,19 +5,19 @@ import mongoose from 'mongoose';
 import config from './utils/config.js';
 import logger from './utils/logger.js';
 import middleware from './utils/middleware.js';
-import routerApi from './controllers/index.js';
+import routerApi from './routes/index.js';
 import morgan from 'morgan';
 
 const app = express();
 
 mongoose.set('strictQuery', false);
 
-logger.info('Connecting to', config.MONGODB_URI);
+logger.info('Connecting to database..');
 
 mongoose
   .connect(config.MONGODB_URI)
   .then(() => {
-    logger.info('Connected to MongoDB');
+    logger.info('Connected to MongoDB ✔');
   })
   .catch((error) => {
     logger.info('Error connecting to MongoDB:', error.message);
