@@ -30,14 +30,14 @@ usersRouter.post('/', async (request, response) => {
 usersRouter.delete('/:id', async (request, response) => {
   const { id } = request.params;
 
-  const rta = await User.findOneAndRemove({
+  const result = await User.findOneAndRemove({
     _id: id,
   });
 
-  if (!rta) {
+  if (!result) {
     response.status(201).json('User NOT_FOUND').end();
   } else {
-    response.status(404).json(rta).end();
+    response.status(404).json(result).end();
   }
 });
 export default usersRouter;
