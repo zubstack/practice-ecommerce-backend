@@ -4,7 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import config from './utils/config.js';
 import logger from './utils/logger.js';
-import middleware from './utils/middleware.js';
+import { unknownEndpoint, errorHandler } from './utils/middleware.js';
 import routerApi from './routes/index.js';
 import morgan from 'morgan';
 
@@ -32,7 +32,7 @@ if (config.NODE_ENV !== 'test') {
 
 routerApi(app);
 
-app.use(middleware.unknownEndpoint);
-app.use(middleware.errorHandler);
+app.use(unknownEndpoint);
+app.use(errorHandler);
 
 export default app;
