@@ -40,19 +40,19 @@ userSchema.set('toJSON', {
 
 const User = mongoose.model('User', userSchema);
 
-(async () => {
-  try {
-    await User.deleteMany({});
-    const userObjects = usersData.map((user) => {
-      return new User(user);
-    });
-    const usersPromiseArray = userObjects.map((user) => user.save());
+// (async () => {
+//   try {
+//     await User.deleteMany({});
+//     const userObjects = usersData.map((user) => {
+//       return new User(user);
+//     });
+//     const usersPromiseArray = userObjects.map((user) => user.save());
 
-    await Promise.all(usersPromiseArray);
-    logger.info('Succesfully users upload');
-  } catch (error) {
-    logger.error('Error: users uploading failed \n', error.message);
-  }
-})();
+//     await Promise.all(usersPromiseArray);
+//     logger.info('Succesfully users upload');
+//   } catch (error) {
+//     logger.error('Error: users uploading failed \n', error.message);
+//   }
+// })();
 
 export default User;
