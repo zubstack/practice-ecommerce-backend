@@ -12,7 +12,7 @@ categoriesRouter.get('/', async (request, response) => {
     id: 1,
   });
   const categoriesList = categories.map((category) => category.toJSON());
-  response.json(categoriesList);
+  return response.json(categoriesList);
 });
 
 categoriesRouter.post(
@@ -22,7 +22,7 @@ categoriesRouter.post(
     const { body } = request;
     const newItem = new Category(body);
     const result = await newItem.save();
-    response.status(201).json(result);
+    return response.status(201).json(result);
   }
 );
 
@@ -34,9 +34,9 @@ categoriesRouter.delete('/:id', async (request, response) => {
   });
 
   if (!result) {
-    response.status(201).json('Category NOT_FOUND').end();
+    return response.status(404).json('Category NOT_FOUND');
   } else {
-    response.status(404).json(result).end();
+    return response.status(204).json(result);
   }
 });
 

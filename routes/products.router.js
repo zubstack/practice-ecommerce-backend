@@ -17,7 +17,7 @@ productsRouter.get('/', async (request, response) => {
 productsRouter.get('/:id', async (request, response) => {
   const { id } = request.params;
   const result = await service.findOne({ _id: id });
-  return response.status(200).json(result);
+  return response.json(result);
 });
 
 productsRouter.post(
@@ -43,7 +43,7 @@ productsRouter.patch(
     const { id } = request.params;
     const { body } = request;
     const result = await service.update(id, body);
-    return response.json(result);
+    return response.status(204).json(result);
   }
 );
 
