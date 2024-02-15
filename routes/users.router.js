@@ -1,8 +1,10 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/user.model.js';
+import UserService from '../services/user.service.js';
 
 const usersRouter = express.Router();
+const service = new UserService();
 
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({});
@@ -11,20 +13,13 @@ usersRouter.get('/', async (request, response) => {
 });
 
 usersRouter.post('/', async (request, response) => {
-  const { username, name, password } = request.body;
-
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
-
-  const user = new User({
-    username,
-    name,
-    passwordHash,
+  const { email_address, phone_number, password } = request.body;
+  const result = await service.create({
+    email_address,
+    phone_number,
+    password,
   });
-
-  const savedUser = await user.save();
-
-  response.status(201).json(savedUser);
+  response.status(201).json(result);
 });
 
 usersRouter.delete('/:id', async (request, response) => {
