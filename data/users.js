@@ -1,8 +1,10 @@
 const users = [
   {
-    email_address: 'mt.calderon.alejandro@gmail.com',
-    phone_number: '0981079457',
-    password_hash: 'bla',
+    email: 'mt.calderon.alejandro@gmail.com',
+    phone_number: '0947856235',
+    address: 'Riobamba',
+    orders: [],
+    shoppingCart: [],
   },
 ];
 

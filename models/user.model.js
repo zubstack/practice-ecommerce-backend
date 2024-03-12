@@ -3,7 +3,7 @@ import logger from '../utils/logger.js';
 import usersData from '../data/users.js';
 
 const userSchema = new mongoose.Schema({
-  email_address: {
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -11,19 +11,23 @@ const userSchema = new mongoose.Schema({
   },
   phone_number: {
     type: String,
-    required: true,
     unique: true,
     maxLength: 100,
   },
-  password_hash: {
+  address: {
     type: String,
-    required: true,
     maxLength: 100,
   },
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Order',
+    },
+  ],
+  shoppingCart: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'shoppingCartItem',
     },
   ],
 });
@@ -33,8 +37,6 @@ userSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
-    // the passwordHash should not be revealed
-    delete returnedObject.passwordHash;
   },
 });
 

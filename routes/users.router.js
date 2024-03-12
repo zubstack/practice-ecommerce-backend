@@ -1,5 +1,4 @@
-import express from 'express';
-import bcrypt from 'bcrypt';
+import express, { response } from 'express';
 import User from '../models/user.model.js';
 import UserService from '../services/user.service.js';
 
@@ -35,4 +34,18 @@ usersRouter.delete('/:id', async (request, response) => {
     response.status(404).json(result).end();
   }
 });
+
+usersRouter.patch('/:id', async (request, response) => {
+  const { id } = request.params;
+  const { body } = request;
+  const result = await service.update(id, body);
+  return response.status(204).json(result);
+});
+
+usersRouter.post('/login', async (request, response) => {
+  const { email } = request.body;
+  const result = await service.login(email);
+  response.json(result).status(200);
+});
+
 export default usersRouter;
