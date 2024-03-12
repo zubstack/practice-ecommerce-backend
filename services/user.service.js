@@ -9,6 +9,7 @@ class UserService {
   }
 
   async findOne(id) {
+    console.log('id', id);
     const user = await User.findOne({ _id: id });
     if (!User) {
       throw boom.notFound('User not found');
@@ -16,22 +17,24 @@ class UserService {
     return user;
   }
 
-  async login(email) {
+  async login({ email }) {
     if (email === undefined) {
       throw boom.badRequest('missing data');
     }
     const user = await User.findOne({ email: email });
-    if (!User) {
-      throw boom.notFound('User not found');
+    if (!user) {
+      const newUser = await this.create({ email });
+      return newUser;
     }
     return user;
   }
 
-  async create(payload) {
-    if (payload === undefined) {
+  async create({ email }) {
+    if (email === undefined) {
       throw boom.badRequest('missing data');
     }
-    const newUser = new User(payload);
+    const newUser = new User({ email });
+    console.log('newUser', newUser);
     const result = await newUser.save();
     return result;
   }

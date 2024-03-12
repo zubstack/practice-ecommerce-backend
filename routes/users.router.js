@@ -1,4 +1,4 @@
-import express, { response } from 'express';
+import express from 'express';
 import User from '../models/user.model.js';
 import UserService from '../services/user.service.js';
 
@@ -12,13 +12,9 @@ usersRouter.get('/', async (request, response) => {
 });
 
 usersRouter.post('/', async (request, response) => {
-  const { email_address, phone_number, password } = request.body;
-  const result = await service.create({
-    email_address,
-    phone_number,
-    password,
-  });
-  response.status(201).json(result);
+  const { email } = request.body;
+  const result = await service.create({ email });
+  response.status(201).json({ message: 'created', body: result });
 });
 
 usersRouter.delete('/:id', async (request, response) => {
@@ -44,8 +40,8 @@ usersRouter.patch('/:id', async (request, response) => {
 
 usersRouter.post('/login', async (request, response) => {
   const { email } = request.body;
-  const result = await service.login(email);
-  response.json(result).status(200);
+  const result = await service.login({ email });
+  response.json({ user: result }).status(200);
 });
 
 export default usersRouter;

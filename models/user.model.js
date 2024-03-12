@@ -9,27 +9,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     maxLength: 100,
   },
-  phone_number: {
-    type: String,
-    unique: true,
-    maxLength: 100,
+  customer_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
   },
-  address: {
-    type: String,
-    maxLength: 100,
-  },
-  orders: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
-    },
-  ],
-  shoppingCart: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'shoppingCartItem',
-    },
-  ],
 });
 
 userSchema.set('toJSON', {

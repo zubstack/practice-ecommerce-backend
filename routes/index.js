@@ -3,6 +3,7 @@ import productsRouter from './products.router.js';
 import ordersRouter from './orders.router.js';
 import usersRouter from './users.router.js';
 import categoriesRouter from './categories.router.js';
+import customersRouter from './customers.router.js';
 
 function routerApi(app) {
   const router = express.Router();
@@ -11,6 +12,7 @@ function routerApi(app) {
   router.use('/orders', ordersRouter);
   router.use('/users', usersRouter);
   router.use('/categories', categoriesRouter);
+  router.use('/customers', customersRouter);
 }
 
 export default routerApi;
