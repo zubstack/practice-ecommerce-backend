@@ -3,9 +3,10 @@ import logger from '../utils/logger.js';
 import customersData from '../data/customers.js';
 
 const customerSchema = new mongoose.Schema({
-  user_id: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    unique: true,
   },
   phone_number: {
     type: String,
@@ -46,7 +47,7 @@ customerSchema.set('toJSON', {
   },
 });
 
-const Customer = mongoose.model('customer', customerSchema);
+const Customer = mongoose.model('Customer', customerSchema);
 
 // (async () => {
 //   try {

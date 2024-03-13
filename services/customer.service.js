@@ -7,12 +7,16 @@ const userService = new UserService();
 class CustomerService {
   constructor() {}
 
-  async find() {
+  async findAll() {
     return await Customer.find({});
   }
 
-  async findOne(id) {
-    const customer = await Customer.findOne({ _id: id });
+  async findAllWithUsers() {
+    return await Customer.find({}).populate('user');
+  }
+
+  async findById(id) {
+    const customer = await Customer.findById(id);
     if (!customer) {
       throw boom.notFound('Customer not found');
     }
@@ -25,14 +29,14 @@ class CustomerService {
     }
     const { user_id } = payload;
     const user = await userService.findOne(user_id);
-    const newCustomer = await Customer.create(payload);
-    user.customer_id = newCustomer.id;
-    await newCustomer.save();
+    const newCustomer = await Customer.create({ user: user.id, ...payload });
+    user.customer = newCustomer._id;
+    const result = await newCustomer.save();
     await user.save();
-    return user;
+    return result;
   }
 
-  async deleteOne(id) {
+  async deleteById(id) {
     const result = await Customer.findByIdAndRemove(id);
     if (!result) {
       throw boom.notFound('Customer not found');

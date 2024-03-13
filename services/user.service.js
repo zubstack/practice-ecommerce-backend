@@ -4,14 +4,17 @@ import User from '../models/user.model.js';
 class UserService {
   constructor() {}
 
-  async find() {
+  async findAll() {
     return await User.find({});
   }
 
+  async findAllWithCustomers() {
+    return await User.find({}).populate('customer');
+  }
+
   async findOne(id) {
-    console.log('id', id);
-    const user = await User.findOne({ _id: id });
-    if (!User) {
+    const user = await User.findById(id);
+    if (!user) {
       throw boom.notFound('User not found');
     }
     return user;
@@ -39,7 +42,7 @@ class UserService {
     return result;
   }
 
-  async deleteOne(id) {
+  async deleteById(id) {
     const result = await User.findByIdAndRemove(id);
     if (!result) {
       throw boom.notFound('User not found');

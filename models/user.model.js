@@ -9,9 +9,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     maxLength: 100,
   },
-  customer_id: {
+  customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
+    unique: true,
   },
 });
 
