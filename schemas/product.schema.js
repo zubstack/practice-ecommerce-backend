@@ -6,7 +6,7 @@ const variants = Joi.array();
 const available = Joi.boolean();
 const description = Joi.string().min(5);
 const details = Joi.array();
-const category_id = Joi.string();
+const category = Joi.string();
 
 const createProductSchema = Joi.object({
   name: name.required(),
@@ -15,7 +15,7 @@ const createProductSchema = Joi.object({
   available: available.required(),
   description: description.required(),
   details: details.required(),
-  category_id: category_id.required(),
+  category_id: category.required(),
 });
 const updateProductSchema = Joi.object({
   name: name,
@@ -24,7 +24,7 @@ const updateProductSchema = Joi.object({
   available: available,
   description: description,
   details: details,
-  category_id: category_id,
+  category_id: category,
 });
 
 export { createProductSchema, updateProductSchema };

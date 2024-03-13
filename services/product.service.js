@@ -6,7 +6,10 @@ class ProductService {
   constructor() {}
 
   async find() {
-    return await Product.find({});
+    return await Product.find({}).populate('category', {
+      category_name: 1,
+      id: 1,
+    });
   }
 
   async findOne(id) {
@@ -24,9 +27,9 @@ class ProductService {
     const { category_id } = body;
     const category = await Category.findById(category_id);
     if (!category) {
-      throw boom.notFound('category_id not found');
+      throw boom.notFound('Category not found');
     }
-    const newProduct = { ...body, category_id: category.id };
+    const newProduct = { ...body, category: category.id };
     const product = new Product(newProduct);
     category.products = category.products.concat(product._id);
     const result = await product.save();

@@ -50,3 +50,7 @@ Lo malo:
 - Tengo que sincronizar todos los modelos involucrados a la vez, lo que implica comentar y descomentar scripts en diferentes archivos muy seguido
   Solucion:
 - Puedo crear un script aparte para hacer estas "migraciones"
+
+# Importante:
+
+category => category_id // Para especificar que se quiere el id y no un objeto asi, dificulta algunas operaciones

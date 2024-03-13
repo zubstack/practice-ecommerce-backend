@@ -16,7 +16,7 @@ beforeEach(async () => {
   await initializeCategories();
   const firstCategory = await getFirstCategory();
   const productObjects = initialProducts.map((product) => {
-    product.category_id = firstCategory._id;
+    product.category = firstCategory._id;
     return new Product(product);
   });
   const promiseArray = productObjects.map((product) => product.save());
@@ -55,7 +55,7 @@ describe('Getters: /products', () => {
       .get(`${productsUrl}/${searchedProduct.id}`)
       .expect(200)
       .expect('Content-Type', /application\/json/);
-    searchedProduct.category_id = searchedProduct.category_id.toString(); //we delivery as string
+    searchedProduct.category = searchedProduct.category.toString(); //we delivery as string
     expect(resultProduct.body).toStrictEqual(searchedProduct);
   });
 });

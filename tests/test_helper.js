@@ -117,7 +117,7 @@ const initialProducts = [
 
 const getNonExistingId = async () => {
   const { model } = await getProductExamples();
-  const product = new Product(model);
+  const product = new Product({ ...model, category: model.category_id });
   await product.save();
   await product.deleteOne();
 

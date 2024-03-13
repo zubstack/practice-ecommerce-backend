@@ -24,7 +24,7 @@ categorySchema.set('toJSON', {
   },
 });
 
-const Category = mongoose.model('category', categorySchema);
+const Category = mongoose.model('Category', categorySchema);
 
 // (async () => {
 //   try {
