@@ -26,11 +26,11 @@ class ProductService {
     if (!category) {
       throw boom.notFound('category_id not found');
     }
-    const newProduct = { ...body, category_id: category._id };
+    const newProduct = { ...body, category_id: category.id };
     const product = new Product(newProduct);
     category.products = category.products.concat(product._id);
-    await category.save();
     const result = await product.save();
+    await category.save();
     return result;
   }
 
