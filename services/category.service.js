@@ -50,6 +50,10 @@ class CategoryService {
     }
     return result;
   }
+
+  async deleteAll() {
+    return await Category.deleteMany({});
+  }
 }
 
 export default CategoryService;

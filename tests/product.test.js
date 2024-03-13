@@ -1,31 +1,16 @@
 import { connection } from 'mongoose';
 import supertest from 'supertest';
 import app from '../app.js';
-import Product from '../models/product.model.js';
 import {
-  getFirstCategory,
   getNonExistingId,
   getProductExamples,
   initialProducts,
-  initializeCategories,
+  initializeProducts,
   productsInDb,
 } from './test_helper.js';
 
 beforeEach(async () => {
-  await Product.deleteMany({});
-  await initializeCategories();
-  const firstCategory = await getFirstCategory();
-  const productObjects = initialProducts.map((product) => {
-    product.category = firstCategory._id;
-    return new Product(product);
-  });
-  const promiseArray = productObjects.map((product) => product.save());
-  productObjects.map(
-    (product) =>
-      (firstCategory.products = firstCategory.products.concat(product._id))
-  );
-  await firstCategory.save();
-  await Promise.all(promiseArray);
+  await initializeProducts();
 });
 
 const api = supertest(app);

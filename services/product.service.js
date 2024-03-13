@@ -62,6 +62,10 @@ class ProductService {
     }
     return result;
   }
+
+  async deleteAll() {
+    return await Product.deleteMany({});
+  }
 }
 
 export default ProductService;
