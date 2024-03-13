@@ -5,15 +5,18 @@ import Category from '../models/category.model.js';
 class ProductService {
   constructor() {}
 
-  async find() {
+  async findAll() {
+    return await Product.find({});
+  }
+  async findAllWithCategory() {
     return await Product.find({}).populate('category', {
       category_name: 1,
       id: 1,
     });
   }
 
-  async findOne(id) {
-    const product = await Product.findOne({ _id: id });
+  async findById(id) {
+    const product = await Product.findById(id);
     if (!product) {
       throw boom.notFound('product not found');
     }
@@ -37,7 +40,7 @@ class ProductService {
     return result;
   }
 
-  async deleteOne(id) {
+  async deleteById(id) {
     const result = await Product.findByIdAndRemove(id);
     if (!result) {
       throw boom.notFound('product not found');

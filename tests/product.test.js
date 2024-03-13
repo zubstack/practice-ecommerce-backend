@@ -40,12 +40,11 @@ describe('Getters: /products', () => {
   });
   test('all products are returned', async () => {
     const response = await api.get(productsUrl);
-
-    expect(response.body).toHaveLength(initialProducts.length);
+    expect(response.body.content).toHaveLength(initialProducts.length);
   });
   test('check for specific product', async () => {
     const response = await api.get(productsUrl);
-    const contents = response.body.map((product) => product.name);
+    const contents = response.body.content.map((product) => product.name);
     expect(contents).toContain('Speed X');
   });
   test('get a specific product with id', async () => {
@@ -56,7 +55,7 @@ describe('Getters: /products', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
     searchedProduct.category = searchedProduct.category.toString(); //we delivery as string
-    expect(resultProduct.body).toStrictEqual(searchedProduct);
+    expect(resultProduct.body.content).toStrictEqual(searchedProduct);
   });
 });
 
