@@ -37,7 +37,6 @@ class UserService {
       throw boom.badRequest('missing data');
     }
     const newUser = new User({ email });
-    console.log('newUser', newUser);
     const result = await newUser.save();
     return result;
   }
