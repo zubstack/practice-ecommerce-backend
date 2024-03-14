@@ -3,7 +3,7 @@ import logger from '../utils/logger.js';
 import categoriesData from '../data/categories.js';
 
 const categorySchema = new mongoose.Schema({
-  category_name: {
+  name: {
     type: String,
     required: true,
     unique: true,

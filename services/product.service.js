@@ -10,7 +10,7 @@ class ProductService {
   }
   async findAllWithCategory() {
     return await Product.find({}).populate('category', {
-      category_name: 1,
+      name: 1,
       id: 1,
     });
   }

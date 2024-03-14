@@ -1,6 +1,6 @@
 const categories = [
   {
-    category_name: 'shoes',
+    name: 'shoes',
   },
 ];
 

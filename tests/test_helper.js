@@ -39,7 +39,7 @@ const initializeCategories = async () => {
 
 const getCategoryByName = async (categoryName) => {
   const result = await categoryService.findAll();
-  return result.find((category) => category.category_name === categoryName);
+  return result.find((category) => category.name === categoryName);
 };
 
 const getNonExistingId = async () => {
