@@ -23,6 +23,22 @@ class ProductService {
     return product;
   }
 
+  async findCategoryByProductId(id) {
+    const productWithCategory = await Product.findById(id).populate(
+      'category',
+      {
+        name: 1,
+        id: 1,
+      }
+    );
+    if (!productWithCategory) {
+      throw boom.notFound('productWithCategory not found');
+    }
+    const category = await Category.findById(productWithCategory.category._id);
+
+    return category;
+  }
+
   async create(body) {
     if (body === undefined) {
       throw boom.badRequest('missing data');
@@ -41,11 +57,20 @@ class ProductService {
   }
 
   async deleteById(id) {
+    const productCategory = await this.findCategoryByProductId(id);
     const result = await Product.findByIdAndRemove(id);
     if (!result) {
       throw boom.notFound('product not found');
     }
+    await this.updateCategoryAfterDelete(productCategory, id);
     return result;
+  }
+
+  async updateCategoryAfterDelete(productCategory, productId) {
+    productCategory.products = productCategory.products.filter(
+      (product) => product._id.toString() !== productId
+    );
+    await productCategory.save();
   }
 
   async update(id, body) {
