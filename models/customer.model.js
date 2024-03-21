@@ -25,12 +25,7 @@ const customerSchema = new mongoose.Schema({
     type: String,
     maxLength: 100,
   },
-  orders: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
-    },
-  ],
+
   shoppingCart: [
     {
       type: mongoose.Schema.Types.ObjectId,

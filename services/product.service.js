@@ -43,7 +43,7 @@ class ProductService {
     if (body === undefined) {
       throw boom.badRequest('missing data');
     }
-    const { category_id } = body;
+    const { category: category_id } = body;
     const category = await Category.findById(category_id);
     if (!category) {
       throw boom.notFound('Category not found');

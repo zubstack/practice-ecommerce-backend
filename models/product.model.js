@@ -1,39 +1,29 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
-import variantsSchema from './variant.model.js';
-import productsData from '../data/products.js';
-import logger from '../utils/logger.js';
-import Category from './category.model.js';
 
 const productSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     minLength: 5,
     maxLength: 100,
     required: true,
   },
-  brand: {
-    type: String,
-    minLength: 2,
-    maxLength: 100,
+  price: {
+    type: Number,
     required: true,
   },
-  variants: [variantsSchema],
-  available: {
-    type: Boolean,
-    required: true,
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: [true, 'Each product must to specify its category'],
   },
   description: {
     type: String,
     minLength: 5,
     required: true,
   },
-  details: [String],
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
-    required: [true, 'Each product must to specify its category'],
+  image: {
+    type: String,
+    required: true,
   },
 });
 
@@ -47,28 +37,5 @@ productSchema.set('toJSON', {
 });
 
 const Product = mongoose.model('Product', productSchema);
-
-// (async () => {
-//   try {
-//     await Product.deleteMany({});
-//     const categories = await Category.find({});
-//     const firstCategory = categories[0];
-//     const productObjects = productsData.map((product) => {
-//       product.category = firstCategory._id;
-//       return new Product(product);
-//     });
-//     const productsPromiseArray = productObjects.map((product) =>
-//       product.save()
-//     );
-//     productObjects.map((product) => {
-//       firstCategory.products = firstCategory.products.concat(product._id);
-//     });
-//     await firstCategory.save();
-//     await Promise.all(productsPromiseArray);
-//     logger.info('Succesfully products upload');
-//   } catch (error) {
-//     logger.error('Error: products uploading failed \n', error.message);
-//   }
-// })();
 
 export default Product;

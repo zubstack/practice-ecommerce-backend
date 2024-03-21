@@ -1,6 +1,6 @@
 const categories = [
   {
-    name: 'shoes',
+    name: 'clothing',
   },
 ];
 

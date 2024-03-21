@@ -1,7 +1,6 @@
 import { default as initialProducts } from '../data/products.js';
 import { default as initialCategories } from '../data/categories.js';
 import Product from '../models/product.model.js';
-import User from '../models/user.model.js';
 import ProductService from '../services/product.service.js';
 import CategoryService from '../services/category.service.js';
 
@@ -16,7 +15,7 @@ const productsInDb = async () => {
 const initializeProducts = async () => {
   await productService.deleteAll();
   await initializeCategories();
-  const category = await getCategoryByName('shoes');
+  const category = await getCategoryByName('clothing');
   const productObjects = initialProducts.map((product) => {
     product.category = category._id;
     return new Product(product);
@@ -44,37 +43,24 @@ const getCategoryByName = async (categoryName) => {
 
 const getNonExistingId = async () => {
   const { model } = await getProductExamples();
-  const product = new Product({ ...model, category: model.category_id });
+  const product = new Product(model);
   await product.save();
   await product.deleteOne();
 
   return product._id.toString();
 };
 
-const usersInDb = async () => {
-  const users = await User.find({});
-  return users.map((user) => user.toJSON());
-};
-
 const getProductExamples = async () => {
-  const category = await getCategoryByName('shoes');
+  const category = await getCategoryByName('clothing');
 
   return {
     model: {
-      name: 'Amazing shoe',
-      brand: 'adidas',
-      variants: [
-        {
-          variant_name: 'default',
-          size: ['39', '42'],
-          price: 135,
-          images: ['https://static.basketballstore.net/image.jpg'],
-        },
-      ],
-      available: true,
-      description: 'This shoes are awsome',
-      details: ['description1', 'description2'],
-      category_id: category._id,
+      title: 'New product',
+      price: 22.3,
+      description: 'Slim-fitting style',
+      category: category.id,
+      image:
+        'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
     },
     bad: {},
   };
@@ -84,7 +70,6 @@ export {
   initialProducts,
   productsInDb,
   getNonExistingId,
-  usersInDb,
   initializeCategories,
   initializeProducts,
   getCategoryByName,

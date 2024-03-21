@@ -27,11 +27,13 @@ describe('Getters: /products', () => {
     const response = await api.get(productsUrl);
     expect(response.body.content).toHaveLength(initialProducts.length);
   });
+
   test('check for specific product', async () => {
     const response = await api.get(productsUrl);
-    const contents = response.body.content.map((product) => product.name);
-    expect(contents).toContain('Speed X');
+    const contents = response.body.content.map((product) => product.title);
+    expect(contents).toContain('Mens Cotton Jacket');
   });
+
   test('get a specific product with id', async () => {
     const productsToStart = await productsInDb();
     const searchedProduct = productsToStart[0];
@@ -53,10 +55,11 @@ describe('Setters: /products', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/);
     const productsAtEnd = await productsInDb();
-    const contents = productsAtEnd.map((product) => product.name);
+    const contents = productsAtEnd.map((product) => product.title);
     expect(productsAtEnd).toHaveLength(initialProducts.length + 1);
-    expect(contents).toContain('Harden Vol 7 - Grey');
+    expect(contents).toContain('New product');
   });
+
   test('delete a product', async () => {
     const productsToStart = await productsInDb();
     const { id } = productsToStart[0];
@@ -72,6 +75,7 @@ describe('Failue: /products', () => {
   test('with non existing id', async () => {
     const non_existing_id = await getNonExistingId();
     const { model } = await getProductExamples();
+    console.log('model', model);
     await api.get(`${productsUrl}/${non_existing_id}`).expect(404);
     await api.delete(`${productsUrl}/${non_existing_id}`).expect(404);
     await api
@@ -79,6 +83,7 @@ describe('Failue: /products', () => {
       .send(model)
       .expect(404);
   });
+
   test('with invalid id', async () => {
     const invalidId = 'invalid-id';
     await api.get(`${productsUrl}/${invalidId}`).expect(400);

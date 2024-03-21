@@ -1,30 +1,24 @@
 import Joi from 'joi';
 
-const name = Joi.string().min(3).max(100);
-const brand = Joi.string().min(1).max(100);
-const variants = Joi.array();
-const available = Joi.boolean();
-const description = Joi.string().min(5);
-const details = Joi.array();
+const title = Joi.string().min(3).max(100);
+const price = Joi.number();
 const category = Joi.string();
+const description = Joi.string().min(5);
+const image = Joi.string();
 
 const createProductSchema = Joi.object({
-  name: name.required(),
-  brand: brand.required(),
-  variants: variants.required(),
-  available: available.required(),
+  title: title.required(),
+  price: price.required(),
+  category: category.required(),
   description: description.required(),
-  details: details.required(),
-  category_id: category.required(),
+  image: image.required(),
 });
 const updateProductSchema = Joi.object({
-  name: name,
-  brand: brand,
-  variants: variants,
-  available: available,
+  title: title,
+  price: price,
+  category: category,
   description: description,
-  details: details,
-  category_id: category,
+  image: image,
 });
 
 export { createProductSchema, updateProductSchema };
