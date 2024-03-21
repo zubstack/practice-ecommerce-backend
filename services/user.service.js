@@ -28,11 +28,11 @@ class UserService {
     return user;
   }
 
-  async create({ email }) {
-    if (email === undefined) {
+  async create(payload) {
+    if (payload === undefined) {
       throw boom.badRequest('missing data');
     }
-    const newUser = new User({ email });
+    const newUser = new User(payload);
     const result = await newUser.save();
     return result;
   }

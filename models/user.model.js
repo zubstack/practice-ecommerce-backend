@@ -9,6 +9,31 @@ const userSchema = new mongoose.Schema({
     unique: true,
     maxLength: 100,
   },
+  name: {
+    firstname: {
+      type: String,
+      maxLength: 50,
+    },
+    lastname: {
+      type: String,
+      maxLength: 50,
+    },
+  },
+  address: {
+    city: String,
+    street: String,
+    number: Number,
+    zipcode: String,
+    geolocation: {
+      lat: String,
+      long: String,
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  phone: String,
 });
 
 userSchema.set('toJSON', {

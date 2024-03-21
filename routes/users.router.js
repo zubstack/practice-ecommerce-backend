@@ -1,5 +1,7 @@
 import express from 'express';
 import UserService from '../services/user.service.js';
+import { validatorHandler } from '../utils/middleware.js';
+import { createUserSchema } from '../schemas/user.schema.js';
 
 const usersRouter = express.Router();
 const service = new UserService();
@@ -13,11 +15,15 @@ usersRouter.get('/', async (request, response) => {
   return response.status(200).json({ message: 'success', content: result });
 });
 
-usersRouter.post('/', async (request, response) => {
-  const { email } = request.body;
-  const result = await service.create({ email });
-  return response.status(201).json({ message: 'created', content: result });
-});
+usersRouter.post(
+  '/',
+  validatorHandler(createUserSchema, 'body'),
+  async (request, response) => {
+    const { body } = request;
+    const result = await service.create(body);
+    return response.status(201).json({ message: 'created', content: result });
+  }
+);
 
 usersRouter.post('/login', async (request, response) => {
   const { email } = request.body;
