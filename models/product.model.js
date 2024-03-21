@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+// import Category from './category.model.js';
+// import initialProducts from '../data/products.js';
+// import logger from '../utils/logger.js';
 
 const productSchema = new mongoose.Schema({
   title: {
@@ -37,5 +40,28 @@ productSchema.set('toJSON', {
 });
 
 const Product = mongoose.model('Product', productSchema);
+
+// (async () => {
+//   try {
+//     await Product.deleteMany({});
+//     const categories = await Category.find({});
+//     const firstCategory = categories[0];
+//     const productObjects = initialProducts.map((product) => {
+//       product.category = firstCategory._id;
+//       return new Product(product);
+//     });
+//     const productsPromiseArray = productObjects.map((product) =>
+//       product.save()
+//     );
+//     productObjects.map((product) => {
+//       firstCategory.products = firstCategory.products.concat(product._id);
+//     });
+//     await firstCategory.save();
+//     await Promise.all(productsPromiseArray);
+//     logger.info('Succesfully products upload');
+//   } catch (error) {
+//     logger.error('Error: products uploading failed \n', error.message);
+//   }
+// })();
 
 export default Product;

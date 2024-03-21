@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+// import logger from '../utils/logger.js';
+// import initialCategories from '../data/categories.js';
 
 const categorySchema = new mongoose.Schema({
   name: {
@@ -23,5 +25,19 @@ categorySchema.set('toJSON', {
 });
 
 const Category = mongoose.model('Category', categorySchema);
+
+// (async () => {
+//   try {
+//     await Category.deleteMany({});
+//     const CategoryObjects = initialCategories.map(
+//       (category) => new Category(category)
+//     );
+//     const promiseArray = CategoryObjects.map((category) => category.save());
+//     await Promise.all(promiseArray);
+//     logger.info('Succesfully categories upload');
+//   } catch (error) {
+//     logger.error('Error: categories uploading failed \n', error.message);
+//   }
+// })();
 
 export default Category;
