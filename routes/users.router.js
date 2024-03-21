@@ -5,13 +5,10 @@ const usersRouter = express.Router();
 const service = new UserService();
 
 usersRouter.get('/', async (request, response) => {
-  const { customers: customersQuery } = request.query;
   let result;
-  if (customersQuery) {
-    result = await service.findAllWithCustomers();
-  } else {
-    result = await service.findAll();
-  }
+
+  result = await service.findAll();
+
   // const usersList = result.map((user) => user.toJSON());
   return response.status(200).json({ message: 'success', content: result });
 });

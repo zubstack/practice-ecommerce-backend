@@ -9,11 +9,6 @@ const userSchema = new mongoose.Schema({
     unique: true,
     maxLength: 100,
   },
-  customer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer',
-    unique: true,
-  },
 });
 
 userSchema.set('toJSON', {

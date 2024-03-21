@@ -8,10 +8,6 @@ class UserService {
     return await User.find({});
   }
 
-  async findAllWithCustomers() {
-    return await User.find({}).populate('customer');
-  }
-
   async findOne(id) {
     const user = await User.findById(id);
     if (!user) {
