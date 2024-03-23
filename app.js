@@ -13,7 +13,18 @@ const { env } = keys;
 
 setupDb();
 
-app.use(cors());
+const whitelist = ['http://localhost:5173'];
+const options = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('not allowed'));
+    }
+  },
+};
+
+app.use(cors(options));
 app.use(express.json());
 
 if (env !== 'test') {
