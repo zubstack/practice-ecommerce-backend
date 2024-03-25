@@ -1,6 +1,6 @@
 import express from 'express';
 import ProductService from '../services/product.service.js';
-import { validatorHandler } from '../utils/middleware.js';
+import { validatorSchemaHandler } from '../utils/middleware.js';
 import {
   createProductSchema,
   updateProductSchema,
@@ -28,7 +28,7 @@ productsRouter.get('/:id', async (request, response) => {
 
 productsRouter.post(
   '/',
-  validatorHandler(createProductSchema, 'body'),
+  validatorSchemaHandler(createProductSchema, 'body'),
   async (request, response) => {
     const { body } = request;
     const result = await service.create(body);
@@ -44,7 +44,7 @@ productsRouter.delete('/:id', async (request, response) => {
 
 productsRouter.patch(
   '/:id',
-  validatorHandler(updateProductSchema, 'body'),
+  validatorSchemaHandler(updateProductSchema, 'body'),
   async (request, response) => {
     const { id } = request.params;
     const { body } = request;

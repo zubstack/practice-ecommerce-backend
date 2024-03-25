@@ -5,10 +5,10 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 };
 
-const validatorHandler = (schema, property) => {
+const validatorSchemaHandler = (schema, property) => {
   return (request, response, next) => {
     const data = request[property];
-    const { error } = schema.validate(data);
+    const { error } = schema.validate(data, { abortEarly: false });
     if (error) {
       next(boom.badRequest(error.message));
     }
@@ -40,4 +40,4 @@ const errorHandler = (error, request, response, next) => {
   return undefined;
 };
 
-export { unknownEndpoint, errorHandler, validatorHandler };
+export { unknownEndpoint, errorHandler, validatorSchemaHandler };

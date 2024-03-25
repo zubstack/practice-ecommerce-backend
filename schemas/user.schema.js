@@ -9,7 +9,7 @@ const number = Joi.number();
 const zipcode = Joi.string();
 const lat = Joi.string();
 const long = Joi.string();
-const password = Joi.string().required();
+const password = Joi.string().min(5).required();
 const phone = Joi.string();
 
 const createUserSchema = Joi.object({
@@ -31,5 +31,27 @@ const createUserSchema = Joi.object({
   password: password.required(),
   phone: phone,
 });
+const updateUserSchema = Joi.object({
+  name: Joi.object({
+    firstname: firstname,
+    lastname: lastname,
+  }),
+  address: Joi.object({
+    city: city,
+    street: street,
+    number: number,
+    zipcode: zipcode,
+    geolocation: Joi.object({
+      lat: lat,
+      long: long,
+    }),
+  }),
+  phone: phone,
+});
 
-export { createUserSchema };
+const loginUserSchema = Joi.object({
+  email: email.required(),
+  password: password.required(),
+});
+
+export { createUserSchema, loginUserSchema, updateUserSchema };

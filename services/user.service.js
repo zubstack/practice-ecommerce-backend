@@ -1,5 +1,10 @@
 import boom from '@hapi/boom';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
+import keys from '../config/keys.js';
+
+const { jwt: jwtKeys } = keys;
 
 class UserService {
   constructor() {}
@@ -16,24 +21,37 @@ class UserService {
     return user;
   }
 
-  async login({ email }) {
-    if (email === undefined) {
-      throw boom.badRequest('missing data');
+  async login(payload) {
+    const { email, password } = payload;
+    const user = await User.findOne({ email: email }).select('+password');
+
+    const passwordCorrect =
+      user === null
+        ? false
+        : await bcrypt.compare(password.toString(), user.password);
+
+    if (!(user && passwordCorrect)) {
+      throw boom.unauthorized('Invalid email or password');
     }
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      const newUser = await this.create({ email });
-      return newUser;
-    }
-    return user;
+
+    const userForToken = {
+      email: user.email,
+      id: user.id,
+    };
+
+    const token = jwt.sign(userForToken, jwtKeys.secret, {
+      expiresIn: jwtKeys.expiresIn,
+    });
+    return { email, token };
   }
 
   async create(payload) {
-    if (payload === undefined) {
-      throw boom.badRequest('missing data');
-    }
-    const newUser = new User(payload);
+    const { password } = payload;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+    const newUser = new User({ ...payload, password: passwordHash });
     const result = await newUser.save();
+    result.password = null;
     return result;
   }
 
@@ -46,9 +64,6 @@ class UserService {
   }
 
   async update(id, body) {
-    if (body === undefined) {
-      throw boom.badRequest('missing data');
-    }
     const result = await User.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,

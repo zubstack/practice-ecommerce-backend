@@ -13,6 +13,10 @@ const keys = {
     test: process.env.TEST_MONGODB_URI,
   },
   env: process.env.NODE_ENV,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    expiresIn: process.env.EXPIRES_IN,
+  },
 };
 
 export default keys;

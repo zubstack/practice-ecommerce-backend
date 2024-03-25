@@ -1,7 +1,7 @@
 import express from 'express';
 import CategoryService from '../services/category.service.js';
 import { createCategorySchema } from '../schemas/category.schema.js';
-import { validatorHandler } from '../utils/middleware.js';
+import { validatorSchemaHandler } from '../utils/middleware.js';
 
 const categoriesRouter = express.Router();
 const service = new CategoryService();
@@ -19,7 +19,7 @@ categoriesRouter.get('/', async (request, response) => {
 
 categoriesRouter.post(
   '/',
-  validatorHandler(createCategorySchema, 'body'),
+  validatorSchemaHandler(createCategorySchema, 'body'),
   async (request, response) => {
     const { body } = request;
     const result = await service.create(body);
