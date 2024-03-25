@@ -19,7 +19,7 @@ const options = {
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('not allowed'));
+      callback(new Error('No access allowed for this client'));
     }
   },
 };
