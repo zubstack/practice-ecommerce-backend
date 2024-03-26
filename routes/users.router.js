@@ -6,16 +6,20 @@ import {
   loginUserSchema,
   updateUserSchema,
 } from '../schemas/user.schema.js';
+import authValidator from '../utils/auth.js';
 
 const usersRouter = express.Router();
 const service = new UserService();
 
-usersRouter.get('/', async (request, response) => {
-  let result;
+// This route must to be only allowed to ADMIN role.
+usersRouter.get('/list', async (request, response) => {
+  const result = await service.findAll();
+  return response.status(200).json({ message: 'success', content: result });
+});
 
-  result = await service.findAll();
-
-  // const usersList = result.map((user) => user.toJSON());
+usersRouter.get('/', authValidator, async (request, response) => {
+  const { id } = request.user;
+  const result = await service.findOne(id);
   return response.status(200).json({ message: 'success', content: result });
 });
 
@@ -39,20 +43,20 @@ usersRouter.post(
   }
 );
 
-usersRouter.delete('/:id', async (request, response) => {
-  const { id } = request.params;
+usersRouter.delete('/', authValidator, async (request, response) => {
+  const { id } = request.user;
   const result = await service.deleteById(id);
   return response.status(204).json({ message: 'deleted', content: result });
 });
 
 usersRouter.patch(
-  '/:id',
+  '/',
+  authValidator,
   validatorSchemaHandler(updateUserSchema, 'body'),
   async (request, response) => {
-    const { id } = request.params;
+    const { id } = request.user;
     const { body } = request;
     const result = await service.update(id, body);
-    console.log({ message: 'updated', content: result });
     return response.status(204).json({ message: 'updated', content: result });
   }
 );
