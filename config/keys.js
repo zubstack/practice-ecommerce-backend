@@ -8,7 +8,7 @@ const keys = {
   },
   port: process.env.PORT || 3000,
   database: {
-    production: process.env.MONGO_URI,
+    production: process.env.MONGODB_URI,
     development: process.env.DEV_MONGODB_URI,
     test: process.env.TEST_MONGODB_URI,
   },
