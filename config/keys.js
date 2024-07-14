@@ -4,7 +4,7 @@ dotenv.config();
 
 const keys = {
   app: {
-    name: 'Basquet Ecommerce',
+    name: 'ecommerce-api',
   },
   port: process.env.PORT || 3000,
   database: {
